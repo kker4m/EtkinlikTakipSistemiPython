@@ -16,7 +16,6 @@ class Uygulama:
                 isim TEXT,
                 soyisim TEXT,
                 okul_no TEXT,
-                sinif TEXT,
                 rozet INTEGER DEFAULT 0
             )
         """)
@@ -221,8 +220,6 @@ class UyeEklemeFormu:
         self.soyisim_entry = tk.Entry(self.pencere, font=("Arial", 18))
         self.okul_no_label = tk.Label(self.pencere, text="Okul Numarası:", font=("Arial", 18))
         self.okul_no_entry = tk.Entry(self.pencere, font=("Arial", 18))
-        self.sinif_label = tk.Label(self.pencere, text="Sınıf:", font=("Arial", 18))
-        self.sinif_entry = tk.Entry(self.pencere, font=("Arial", 18))
         self.kaydet_btn = tk.Button(self.pencere, text="Kaydet", command=self.uye_kaydet, font=("Arial", 18), width=20)
         
         self.isim_label.pack()
@@ -231,18 +228,15 @@ class UyeEklemeFormu:
         self.soyisim_entry.pack()
         self.okul_no_label.pack()
         self.okul_no_entry.pack()
-        self.sinif_label.pack()
-        self.sinif_entry.pack()
         self.kaydet_btn.pack()
 
     def uye_kaydet(self):
         isim = self.isim_entry.get()
         soyisim = self.soyisim_entry.get()
         okul_no = self.okul_no_entry.get()
-        sinif = self.sinif_entry.get()
 
         # Boş alan kontrolü
-        if not isim or not soyisim or not okul_no or not sinif:
+        if not isim or not soyisim or not okul_no:
             messagebox.showwarning("Boş Alanlar", "Lütfen tüm alanları doldurun.")
         else:
             # Aynı okul numarasına sahip üyenin olup olmadığını kontrol et
@@ -251,8 +245,8 @@ class UyeEklemeFormu:
             if existing_member:
                 messagebox.showerror("Hata", "Bu okul numarasına sahip bir üye zaten var.")
             else:
-                self.cursor.execute("INSERT INTO uyeler (isim, soyisim, okul_no, sinif) VALUES (?, ?, ?, ?)",
-                                    (isim, soyisim, okul_no, sinif))
+                self.cursor.execute("INSERT INTO uyeler (isim, soyisim, okul_no) VALUES (?, ?, ?)",
+                                    (isim, soyisim, okul_no))
                 self.baglanti.commit()
                 self.pencere.title("Üye Kaydedildi")
                 
@@ -260,7 +254,6 @@ class UyeEklemeFormu:
                 self.isim_entry.delete(0, tk.END)
                 self.soyisim_entry.delete(0, tk.END)
                 self.okul_no_entry.delete(0, tk.END)
-                self.sinif_entry.delete(0, tk.END)
 
 if __name__ == "__main__":
     pencere = tk.Tk()

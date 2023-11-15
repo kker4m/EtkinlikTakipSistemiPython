@@ -246,7 +246,7 @@ class UyeEklemeFormu:
                 messagebox.showerror("Hata", "Bu okul numarasına sahip bir üye zaten var.")
             else:
                 self.cursor.execute("INSERT INTO uyeler (isim, soyisim, okul_no) VALUES (?, ?, ?)",
-                                    (isim, soyisim, okul_no))
+                                    (isim.strip(), soyisim.strip(), okul_no))
                 self.baglanti.commit()
                 self.pencere.title("Üye Kaydedildi")
                 
